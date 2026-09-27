@@ -28,3 +28,7 @@ train/
 # Node dependencies
 node_modules/
 web/node_modules/
+
+# Local deployment configuration
+cameras.json
+cfg_args
