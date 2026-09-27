@@ -1,0 +1,341 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Memory-Efficient 3D Gaussian Splatting | Atal Neupane</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, Arial, sans-serif;
+            background: #0b0f14;
+            color: #e8edf2;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: min(1100px, 92%);
+            margin: auto;
+        }
+
+        header {
+            padding: 80px 0 50px;
+            border-bottom: 1px solid #202832;
+        }
+
+        .tag {
+            color: #61dafb;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 64px);
+            line-height: 1.05;
+            margin: 15px 0;
+            max-width: 850px;
+        }
+
+        .subtitle {
+            color: #aab4bf;
+            font-size: 19px;
+            max-width: 750px;
+        }
+
+        section {
+            padding: 55px 0;
+            border-bottom: 1px solid #202832;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-top: 0;
+        }
+
+        p {
+            color: #aab4bf;
+        }
+
+        .viewer {
+            margin-top: 30px;
+            width: 100%;
+            height: 650px;
+            border: 1px solid #29333e;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .viewer iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .hint {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #788592;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .stat {
+            padding: 22px;
+            background: #11171e;
+            border: 1px solid #202832;
+            border-radius: 10px;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 25px;
+            color: #f1f5f8;
+        }
+
+        .stat span {
+            color: #7f8b97;
+            font-size: 14px;
+        }
+
+        .pipeline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .step {
+            background: #11171e;
+            border: 1px solid #29333e;
+            padding: 13px 18px;
+            border-radius: 8px;
+        }
+
+        .arrow {
+            display: flex;
+            align-items: center;
+            color: #586572;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .tag-item {
+            background: #151c24;
+            border: 1px solid #29333e;
+            padding: 8px 13px;
+            border-radius: 20px;
+            color: #b8c2cc;
+            font-size: 14px;
+        }
+
+        footer {
+            padding: 35px 0;
+            color: #66727e;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                padding: 55px 0 35px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .viewer {
+                height: 500px;
+            }
+
+            .arrow {
+                display: none;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .viewer {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <div class="tag">
+                Computer Vision · 3D Reconstruction · Gaussian Splatting
+            </div>
+
+            <h1>
+                Memory-Efficient 3D Gaussian Splatting
+            </h1>
+
+            <p class="subtitle">
+                A 3D Gaussian Splatting project focused on real-time scene
+                reconstruction and rendering on memory-constrained hardware.
+            </p>
+        </header>
+
+
+        <section>
+            <h2>Interactive 3D Reconstruction</h2>
+
+            <p>
+                Explore the reconstructed scene directly in the browser.
+                The model is rendered using WebGPU and supports interactive
+                orbit, pan, and zoom controls.
+            </p>
+
+            <div class="viewer">
+                <iframe src="./viewer.html" title="Interactive 3D Gaussian Splatting Viewer" allow="fullscreen"
+                    loading="eager">
+                </iframe>
+            </div>
+
+            <div class="hint">
+                Use your mouse to orbit, pan, and zoom around the reconstruction.
+            </div>
+        </section>
+
+
+        <section>
+            <h2>Project Overview</h2>
+
+            <p>
+                This project implements a complete 3D Gaussian Splatting pipeline,
+                starting from multi-view images and camera reconstruction with
+                COLMAP, followed by Gaussian Splatting training and browser-based
+                WebGPU visualization.
+            </p>
+
+            <p>
+                The project is designed around the practical challenge of running
+                3D reconstruction and visualization workloads on hardware with
+                limited GPU memory.
+            </p>
+        </section>
+
+
+        <section>
+            <h2>Current Reconstruction</h2>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <strong>238K</strong>
+                    <span>Gaussians</span>
+                </div>
+
+                <div class="stat">
+                    <strong>84</strong>
+                    <span>Input images</span>
+                </div>
+
+                <div class="stat">
+                    <strong>79</strong>
+                    <span>Registered images</span>
+                </div>
+
+                <div class="stat">
+                    <strong>3,000</strong>
+                    <span>Training iterations</span>
+                </div>
+
+                <div class="stat">
+                    <strong>RTX 3050</strong>
+                    <span>6 GB VRAM</span>
+                </div>
+
+                <div class="stat">
+                    <strong>WebGPU</strong>
+                    <span>Browser renderer</span>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section>
+            <h2>Pipeline</h2>
+
+            <div class="pipeline">
+
+                <div class="step">Multi-view Images</div>
+
+                <div class="arrow">→</div>
+
+                <div class="step">COLMAP</div>
+
+                <div class="arrow">→</div>
+
+                <div class="step">GraphDeco 3DGS</div>
+
+                <div class="arrow">→</div>
+
+                <div class="step">Gaussian Model</div>
+
+                <div class="arrow">→</div>
+
+                <div class="step">WebGPU Viewer</div>
+
+            </div>
+        </section>
+
+
+        <section>
+            <h2>Technologies</h2>
+
+            <div class="tags">
+
+                <div class="tag-item">Python</div>
+                <div class="tag-item">PyTorch</div>
+                <div class="tag-item">CUDA</div>
+                <div class="tag-item">COLMAP</div>
+                <div class="tag-item">3D Gaussian Splatting</div>
+                <div class="tag-item">WebGPU</div>
+                <div class="tag-item">SuperSplat</div>
+                <div class="tag-item">FastAPI</div>
+                <div class="tag-item">Docker</div>
+
+            </div>
+        </section>
+
+
+        <footer>
+            3D Gaussian Splatting Project · Atal Neupane
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
+```

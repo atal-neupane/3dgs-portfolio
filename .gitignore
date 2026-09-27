@@ -1,0 +1,30 @@
+# Large 3DGS model files
+*.ply
+*.sog
+*.compressed.ply
+
+# Dataset / training data
+images/
+point_cloud/
+sparse/
+undistorted/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+venv/
+.env
+
+# Generated files
+test_render.png
+output/
+
+# GraphDeco training source
+train/
+
+# Node dependencies
+node_modules/
+web/node_modules/
